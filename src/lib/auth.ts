@@ -5,6 +5,11 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { verifyUser } from "@/lib/userStore";
 import { checkLocked, recordFailure, recordSuccess } from "@/lib/loginAttempts";
 
+// On Vercel preview deployments NEXTAUTH_URL is not set; use VERCEL_URL as fallback.
+if (process.env.VERCEL_URL && !process.env.NEXTAUTH_URL) {
+  process.env.NEXTAUTH_URL = `https://${process.env.VERCEL_URL}`;
+}
+
 const githubClientId = process.env.GITHUB_CLIENT_ID;
 const githubClientSecret = process.env.GITHUB_CLIENT_SECRET;
 const githubConfigured =
