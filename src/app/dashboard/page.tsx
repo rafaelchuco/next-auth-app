@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import Link from "next/link";
 import { authOptions } from "@/lib/auth";
 
 const PROVIDER_LABELS: Record<string, string> = {
@@ -12,7 +12,28 @@ export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
-    redirect("/signIn");
+    return (
+      <section className="grid min-h-[calc(100vh-4rem)] place-items-center px-5 py-16">
+        <div className="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-xl shadow-slate-200/60">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">
+            Acceso restringido
+          </p>
+          <h1 className="text-2xl font-bold tracking-tight">
+            Necesitas iniciar sesión
+          </h1>
+          <p className="mt-3 text-slate-600">
+            Para ver el Dashboard debes iniciar sesión con tu cuenta de Google o
+            GitHub.
+          </p>
+          <Link
+            href="/signIn?callbackUrl=/dashboard"
+            className="mt-6 inline-block w-full rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
+          >
+            Ir a iniciar sesión
+          </Link>
+        </div>
+      </section>
+    );
   }
 
   const provider = (session.user as { provider?: string }).provider ?? "credentials";

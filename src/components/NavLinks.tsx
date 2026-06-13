@@ -10,12 +10,20 @@ export default function NavLinks() {
 
   if (!session?.user) {
     return (
-      <Link
-        className="rounded-full bg-slate-950 px-4 py-2 text-white transition hover:bg-slate-700"
-        href="/signIn"
-      >
-        Iniciar sesión
-      </Link>
+      <>
+        <Link
+          className="text-slate-600 transition hover:text-slate-950"
+          href="/dashboard"
+        >
+          Dashboard
+        </Link>
+        <Link
+          className="rounded-full bg-slate-950 px-4 py-2 text-white transition hover:bg-slate-700"
+          href="/signIn"
+        >
+          Iniciar sesión
+        </Link>
+      </>
     );
   }
 
